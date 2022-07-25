@@ -7,7 +7,7 @@ import (
 
 type server struct {
 	sdk.UnimplementedPokemonStoreServer
-	buypokemonhandler.Handler
+	buypokemonhandler.Handler // остальные хендлеры можно встраивать сюда же
 }
 
 func New(

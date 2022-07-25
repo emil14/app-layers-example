@@ -12,7 +12,7 @@ import (
 
 func TestBuyPokemonHandler_BuyPokemon(t *testing.T) {
 	type fields struct {
-		usecases usecases
+		usecases buyPokemonUseCase
 	}
 	type args struct {
 		ctx context.Context
@@ -30,7 +30,7 @@ func TestBuyPokemonHandler_BuyPokemon(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := &Handler{
-				UseCases: tt.fields.usecases,
+				buyPokemonUseCase: tt.fields.usecases,
 			}
 			got, err := s.BuyPokemon(tt.args.ctx, tt.args.in)
 			if (err != nil) != tt.wantErr {

@@ -28,16 +28,21 @@ func main() {
 	}
 	log.Printf("Listening on %s", port)
 
-	buyPokemonUC := usecase.MustNewBuyPokemon(
-		accountDummyRepo.Repo{},
-		pokemonDummyRepo.Repo{},
-	)
-
-	pokemonStoreSrv := grpcPort.New(buypokemonhandler.Handler{buyPokemonUC})
 	grpcSrv := grpc.NewServer()
-	sdk.RegisterPokemonStoreServer(grpcSrv, pokemonStoreSrv)
+	sdk.RegisterPokemonStoreServer(grpcSrv, buildGRPCApp())
 
 	if err := grpcSrv.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+}
+
+func buildGRPCApp() sdk.PokemonStoreServer {
+	buyPokemonUseCase := usecase.MustNewBuyPokemon(
+		accountDummyRepo.Repo{},
+		pokemonDummyRepo.Repo{},
+	)
+
+	buyPokemonHandler := buypokemonhandler.MustNew(buyPokemonUseCase)
+
+	return grpcPort.New(buyPokemonHandler)
 }

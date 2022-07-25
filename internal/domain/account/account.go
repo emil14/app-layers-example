@@ -1,7 +1,7 @@
 package account
 
 type (
-	Account struct {
+	Account struct { // domain entity
 		ID     uint64
 		UserID uint64
 	}
